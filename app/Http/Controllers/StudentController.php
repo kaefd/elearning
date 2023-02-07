@@ -10,7 +10,6 @@ use App\Models\User;
 use App\Models\Grade;
 use Kyslik\ColumnSortable\Sortable;
 
-
 class StudentController extends Controller
 {
     /**
@@ -25,6 +24,18 @@ class StudentController extends Controller
         return view('elearning.admin.pages.student.index', compact('student','title'));
     }
     
+    public function print($id)
+    {
+        $student = Student::find($id);
+        return view('elearning.admin.pages.student.profile',
+        [
+            'student' => $student
+        ]);
+        
+        //$pdf = PDF::loadview('elearning.admin.pages.student.profile',['student'=>$student]);
+        //return $pdf->stream('profile');
+    
+    }
     /**
      * Show the form for creating a new resource.
      *
@@ -54,12 +65,15 @@ class StudentController extends Controller
         'birthplace'=> 'required',
         'dob'       => 'required',
         'alamat'    => 'required',
-        'email'     => 'required|email:dns|unique:users',
+        'email'     => 'required|unique:users',
         'image'     => 'image|file|max:1024'
         ]);
         
       
-        
+        if($valid = $request->validate(['image']))
+        {
+            $image = $request->file('image')->store('student-images');
+        } else $image = null;
         
         
         //default password adalah tgllahir YYMMDD
@@ -85,7 +99,7 @@ class StudentController extends Controller
         'user_id'    => $user_id,
         'grade_id'   => $request->grade,
         'alamat'     => $request->alamat,
-        'image'      => $request->file('image')->store('student-images')
+        'image'      => $image
         ]);
         
         
@@ -119,11 +133,9 @@ class StudentController extends Controller
      */
     public function edit(Student $student)
     {
-        $grade = Grade::all();
         return view('elearning.admin.pages.student.edit', [
 			 	"title" => "Edit Data",
 			 	"edit" =>$student,
-                "grade" => $grade
 			 ]);
     }
 

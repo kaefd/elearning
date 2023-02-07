@@ -7,12 +7,13 @@
         <h3>{{ $title }}</h3>
         <hr/>
     </div>
-        
-    <div class="card p-3 my-5 w-75 mx-auto">
+    
+    <div class="card py-3 px-5 mb-3 w-75 mx-auto">
 	
 		<div class="d-block">
+            <a href="javascript:history.go(-1)"><i class="fa-solid fa-arrow-left-long" style="font-size:25px; color:#0dcaf0;"></i></a>
 			<a href="{{ route('student.edit', $show->id )}}" class="float-end rounded-0 btn btn-outline-info"><i class="fa-solid fa-pen"></i></a>
-			<a class="float-end rounded-0 btn btn-outline-info"><i class="fa-solid fa-file-export"></i></a>
+            <a href="/student/{{$show->id}}/profile.php" target="_blank" class="float-end rounded-0 btn btn-outline-info"><i class="fa-solid fa-file-export"></i></a>
 		</div>
 		
 		<div class="mb-4 text-center">
@@ -58,4 +59,5 @@
 		</table>
 	
 	</div>
+
 @endsection

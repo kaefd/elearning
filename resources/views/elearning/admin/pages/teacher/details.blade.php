@@ -11,8 +11,9 @@
     <div class="card p-3 my-5 w-75 mx-auto">
 	
 		<div class="d-block">
-			<a href="{{ route('student.edit', $show->id )}}" class="float-end rounded-0 btn btn-outline-info"><i class="fa-solid fa-pen"></i></a>
-			<a class="float-end rounded-0 btn btn-outline-info"><i class="fa-solid fa-file-export"></i></a>
+			<a href="javascript:history.go(-1)"><i class="fa-solid fa-arrow-left-long" style="font-size:25px; color:#0dcaf0;"></i></a>
+			<a href="{{ route('teacher.edit', $show->id )}}" class="float-end rounded-0 btn btn-outline-info"><i class="fa-solid fa-pen"></i></a>
+            <a href="/teacher/{{$show->id}}/profile.php" target="_blank" class="float-end rounded-0 btn btn-outline-info"><i class="fa-solid fa-file-export"></i></a>
 		</div>
 		
 		<div class="mb-4 text-center">
@@ -31,8 +32,8 @@
 				<td>{{ $show->name }}</td>
 			</tr>
 			<tr>	
-				<th>NIS</th>
-				<td>{{ $show->nis }}</td>
+				<th>NIP</th>
+				<td>{{ $show->nidn }}</td>
 			</tr>	
 			<tr>	
 				<th>Tempat, Tgl lahir</th>
@@ -44,7 +45,13 @@
 			</tr>
 			<tr>	
 				<th>Kelas</th>
-				<td>{{ $show->grade->grade_name }}</td>
+				<td>
+                @foreach($show->grade as $grade)
+                    
+                    {{ $grade->grade_name }}
+                    
+                @endforeach
+                </td>
 			</tr>
             <tr>	
 				<th>Email</th>

@@ -60,8 +60,8 @@
                     <label for="gender" class="form-label mt-4">Jenis Kelamin</label>
                     <select class="form-select @error('gender') is-invalid @enderror" aria-label="gender" name="gender" value="{{ old('gender') }}">
                         <option selected></option>
-                        <option value="female">Perempuan</option>
-                        <option value="male">Laki-laki</option>
+                        <option value="perempuan">Perempuan</option>
+                        <option value="laki-laki">Laki-laki</option>
                     </select>
                     @error('gender')
                         <div class="invalid-feedback">

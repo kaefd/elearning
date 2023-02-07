@@ -15,7 +15,7 @@
                 </div>
                 @endif
                         
-    <div class="d-flex mt-3 w-50">
+    <div class="d-flex my-3 w-50">
         <input type="text" class="form-control col" id="stdSearch" onkeyup="filterTableFunc()" placeholder="Search..">
         <a href="{{  route('student.create') }}" class="btn btn-dark col-3 ms-2">Buat Baru</a>
     </div>
@@ -41,14 +41,14 @@
                 <th scope="row">{{ $i++ }}</th>
                 <td>{{ $s->name }}</td>
                 <td>{{ $s->nis }}</td>
-                <td>{{ $s->grade->grade_name }}</td>
+                <td>{{$s->grade->grade_name}}</td>
                 <td>
-                    <a class="btn btn-sm btn-dark text-decoration-none border-0" href="{{ route('student.show', $s->id) }}">details</a>
+                    <a class="btn btn-sm btn-dark text-decoration-none border-0" href="{{ route('student.show', $s->id) }}">view</a>
                     
                     <form action="/admin/student/{{ $s->id }}" method="post" class="d-inline">
                         @method('delete')
                         @csrf
-                        <button class="btn btn-sm btn-danger border-0" onclick="return confirm('apakah anda yakin?')">hapus</button>
+                        <button class="btn btn-sm btn-danger border-0" onclick="return confirm('apakah anda yakin?')">delete</button>
                     </form>
                 </td>
               </tr>
@@ -59,20 +59,22 @@
         </table>
     </div>
 <script>
-const filterTableFunc = () => {
-  const trs = document.querySelectorAll('#stdTable tr:not(.header)')
-  const filter = document.querySelector('#stdSearch').value
-  const regex = new RegExp(filter, 'i')
-  const isFoundInTds = td => regex.test(td.innerHTML)
-  const isFound = childrenArr => childrenArr.some(isFoundInTds)
-  const setTrStyleDisplay = ({ style, children }) => {
-    style.display = isFound([
-      ...children // <-- All columns
-    ]) ? '' : 'none' 
-  }
-  
-  trs.forEach(setTrStyleDisplay)
-}
+    const filterTableFunc = () => {
+    const trs = document.querySelectorAll('#stdTable tr:not(.header)')
+    const filter = document.querySelector('#stdSearch').value
+    const regex = new RegExp(filter, 'i')
+    const isFoundInTds = td => regex.test(td.innerHTML)
+    const isFound = childrenArr => childrenArr.some(isFoundInTds)
+    const setTrStyleDisplay = ({ style, children }) => {
+        style.display = isFound([
+          ...children // <-- All columns
+        ]) ? '' : 'none' 
+      }
+      
+      trs.forEach(setTrStyleDisplay)
+    }
+
+	
 </script>
     
 @endsection

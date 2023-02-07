@@ -16,8 +16,6 @@ return new class extends Migration
         Schema::create('teachers', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id');
-            $table->foreignId('study_id');
-            $table->foreignId('grade_id');
             $table->string('name');
             $table->string('nidn');
             $table->string('gender');

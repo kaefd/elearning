@@ -7,7 +7,7 @@
         <h3>{{ $title }}</h3>
         <hr/>
     </div>
-    <form action="{{ route('student.update', $edit->id) }}" method="post" enctype="multipart/form-data">
+    <form action="{{ route('teacher.update', $edit->id) }}" method="post" enctype="multipart/form-data">
         {{ csrf_field() }}
         @method('PUT')
             <div class="row">
@@ -23,9 +23,9 @@
             </div>
               <div class="row">
                 <div class="col">
-                    <label for="nis" class="form-label mt-4">NIS</label>
-                    <input type="number" class="form-control @error('nis') is-invalid @enderror" id="nis" name="nis" value="{{ old('nis', $edit->nis) }}">
-                    @error('nis')
+                    <label for="nidn" class="form-label mt-4">NIS</label>
+                    <input type="number" class="form-control @error('nidn') is-invalid @enderror" id="nidn" name="nidn" value="{{ old('nidn', $edit->nidn) }}">
+                    @error('nidn')
                         <div class="invalid-feedback">
                             {{ $message }}
                         </div>
@@ -34,12 +34,15 @@
                 <div class="col">
                     <label for="grade_id" class="form-label mt-4">Kelas</label>
                     <select class="form-select @error('grade_id') is-invalid @enderror" aria-label="grade_id" name="grade_id" >
+                        <option></option>
                         @foreach($grade as $g)
-                            @if(old('grade_id', $edit->grade_id) == $g->id)
+                        @foreach($edit->grade as $gr)
+                            @if(old('grade_id', $gr->id) == $g->id)
                                 <option value="{{ $g->id }}" selected>{{$g->grade_name}}</option>
                             @else
                                 <option value="{{ $g->id }}">{{$g->grade_name}}</option>
                             @endif
+                        @endforeach
                         @endforeach
                     </select>
                     @error('grade_id')
@@ -55,7 +58,7 @@
                     <label for="gender" class="form-label mt-4">Jenis Kelamin</label>
                     <select class="form-select @error('gender') is-invalid @enderror" aria-label="gender" name="gender" value="{{ old('gender', $edit->gender) }}">
                         <option selected></option>
-                        <option value="female" @if ($edit->gender == "female") {{ 'selected' }} @endif>Perempuan</option>
+                                                <option value="female" @if ($edit->gender == "female") {{ 'selected' }} @endif>Perempuan</option>
                         <option value="male" @if ($edit->gender == "male") {{ 'selected' }} @endif>Laki-laki</option>
                     </select>
                     @error('gender')
@@ -114,7 +117,6 @@
             <a href="{{ route('student.show', $edit->id) }}" class="btn btn-secondary">Batal</a>
         </div>
     </form>
-        
         <script>
             
             function previewImage()

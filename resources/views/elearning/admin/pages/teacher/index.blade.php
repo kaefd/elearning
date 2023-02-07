@@ -8,25 +8,26 @@
         <hr/>
     </div>
     
-                @if(session()->has('success'))
-                <div class="alert alert-success alert-dismissible fade show" role="alert">
-                    {{ session('success') }}
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
-                @endif
+        @if(session()->has('success'))
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            {{ session('success') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        @endif
                 
     <div class="d-flex mt-5 w-50">
         <input type="text" class="form-control col" id="stdSearch" onkeyup="filterTableFunc()" placeholder="Search..">
         <a href="{{  route('teacher.create') }}" class="btn btn-dark col-3 ms-2">Buat Baru</a>
+        <a href="/teacher/teachers.php" target="_blank" class="float-end btn btn-info col-3 ms-2">Cetak</a>
     </div>
         
-    <div class="container card pt-2 mt-3 table-responsive">
-        <table class="table table-hover vh-table" id="stdTable">
+    <div class="container card pt-2 mt-3 table-responsive vh-table">
+        <table class="table table-hover" id="stdTable">
             <thead class="text-center">
               <tr class="header">
                 <th scope="col">#</th>
                 <th scope="col">Nama</th>
-                <th scope="col">NIDN</th>
+                <th scope="col">NIP</th>
                 <th scope="col">Handle</th>
               </tr>
             </thead>
@@ -39,15 +40,14 @@
               <tr class="text-center">
                 <th scope="row">{{ $i++ }}</th>
                 <td>{{ $t->name }}</td>
-                <td>{{ $t->nis }}</td>
-                <td>{{ $t->grade->grade_name }}</td>
+                <td>{{ $t->nidn }}</td>
                 <td>
-                    <a class="btn btn-sm btn-dark text-decoration-none border-0" href="{{ route('teacher.show', $t->id) }}">details</a>
+                    <a class="btn btn-sm btn-dark text-decoration-none border-0" href="{{ route('teacher.show', $t->id) }}">view</a>
                     
                     <form action="/admin/teacher/{{ $t->id }}" method="post" class="d-inline">
                         @method('delete')
                         @csrf
-                        <button class="btn btn-sm btn-danger border-0" onclick="return confirm('apakah anda yakin?')">hapus</button>
+                        <button class="btn btn-sm btn-danger border-0" onclick="return confirm('apakah anda yakin?')">delete</button>
                     </form>
                 </td>
               </tr>
@@ -57,10 +57,7 @@
             </tbody>
         </table>
     </div>
-    <div class="mt-3">
-        {{ $teacher->links() }}
-    </div>
-
+    
 <script>
 const filterTableFunc = () => {
   const trs = document.querySelectorAll('#stdTable tr:not(.header)')

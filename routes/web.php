@@ -46,3 +46,8 @@ Route::resource('/admin/student', StudentController::class)->middleware(['auth',
 
 //route admin.teacher
 Route::resource('/admin/teacher', TeacherController::class)->middleware(['auth', 'CheckRole:admin']);
+
+//route print
+Route::get('/student/{student:id}/profile.php', [StudentController::class, 'print'])->middleware(['auth', 'CheckRole:admin,teacher,student']);
+Route::get('/teacher/{teacher:id}/profile.php', [TeacherController::class, 'print'])->middleware(['auth', 'CheckRole:admin,teacher,student']);
+Route::get('/teacher/teachers.php', [TeacherController::class, 'printAll'])->middleware(['auth', 'CheckRole:admin']);

@@ -7,7 +7,7 @@
         <h3>{{ $title }}</h3>
         <hr/>
     </div>
-        <form action="/admin/student" method="post" enctype="multipart/form-data" >
+        <form action="/admin/teacher" method="post" enctype="multipart/form-data" >
         {{ csrf_field() }}
             <div class="row">
                 <div class="col">
@@ -31,23 +31,23 @@
             </div>
               <div class="row">
                 <div class="col">
-                    <label for="nis" class="form-label mt-4">NIS</label>
-                    <input type="number" class="form-control @error('nis') is-invalid @enderror" id="nis" name="nis" value="{{ old('nis') }}">
-                    @error('nis')
+                    <label for="nidn" class="form-label mt-4">NIP</label>
+                    <input type="number" class="form-control @error('nidn') is-invalid @enderror" id="nidn" name="nidn" value="{{ old('nidn') }}">
+                    @error('nidn')
                         <div class="invalid-feedback">
                             {{ $message }}
                         </div>
                     @enderror
                 </div>
                 <div class="col">
-                    <label for="grade" class="form-label mt-4">Kelas</label>
-                    <select class="form-select @error('grade') is-invalid @enderror" aria-label="grade" name="grade" value="{{ old('grade') }}">
+                    <label for="grade_id" class="form-label mt-4">Kelas</label>
+                    <select class="form-select @error('grade_id') is-invalid @enderror" aria-label="grade_id" name="grade_id" value="{{ old('grade_id') }}">
                         <option selected></option>
                         <option value="1">X</option>
                         <option value="2">XI</option>
                         <option value="3">XII</option>
                     </select>
-                    @error('grade')
+                    @error('grade_id')
                         <div class="invalid-feedback">
                             {{ $message }}
                         </div>
@@ -114,7 +114,7 @@
 		
 		
             <button class="btn btn-info" type="submit">Simpan perubahan</button>
-            <a href="/admin/student" class="btn btn-secondary">Batal</a>
+            <a href="/admin/teacher" class="btn btn-secondary">Batal</a>
         </div>
     </form>
         

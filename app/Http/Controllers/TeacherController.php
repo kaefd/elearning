@@ -2,7 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use App\Models\Teacher;
+use App\Models\Grade;
+use App\Models\TeacherGrade;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Database\Eloquent\attach;
+
 use Illuminate\Http\Request;
 
 class TeacherController extends Controller
@@ -15,9 +22,30 @@ class TeacherController extends Controller
     public function index()
     {
         $title = 'Data Tentor';
-        $teacher = Teacher::latest()->paginate(10);
+        $teacher = Teacher::all();
         return view('elearning.admin.pages.teacher.index', compact('teacher','title'));
 
+    }
+    
+    public function print($id)
+    {
+        $teacher = Teacher::find($id);
+        return view('elearning.admin.pages.teacher.profile',
+        [
+            'teacher' => $teacher
+        ]);
+            
+    }
+    public function printAll()
+    {
+        $title = 'Data Tentor';
+        $teacher = Teacher::all();
+        return view('elearning.admin.pages.teacher.teachers',
+        [
+            'teacher' => $teacher,
+            'title'   => $title
+        ]);
+            
     }
 
     /**
@@ -39,20 +67,24 @@ class TeacherController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, Teacher $teacher, Grade $grade)
     {
         $valid = $request->validate([
         'name'      => 'required|max:255',
-        'nidn'      => 'required|min:5|unique:students',
+        'nidn'      => 'required|min:5|unique:teachers',
         'gender'    => 'required',
         'birthplace'=> 'required',
         'dob'       => 'required',
         'alamat'    => 'required',
-        'email'     => 'required|email:dns|unique:users',
+        'email'     => 'required|unique:users',
         'image'     => 'image|file|max:1024'
         ]);
         
       
+        if($valid = $request->validate(['image']))
+        {
+            $image = $request->file('image')->store('teacher-images');
+        } else $image = null;
         
         
         
@@ -66,24 +98,31 @@ class TeacherController extends Controller
             'email'    => $request->email,
             'role'     => 'teacher'
         ]);
-        
-        
         $user_id = $user['id'];
+                
         
-        $student = Teacher::create([
+        $teacher = Teacher::create([
         'name'       => $request->name,
-        'nidn'        => $request->nidn,
+        'nidn'       => $request->nidn,
         'gender'     => $request->gender,
         'birthplace' => $request->birthplace,
         'dob'        => $request->dob,
         'user_id'    => $user_id,
-        'grade_id'   => $request->grade,
-        'study_id'   => $request->sthoudy,
         'alamat'     => $request->alamat,
-        'image'      => $request->file('image')->store('student-images')
+        'image'      => $image
         ]);
+
+        if($request->grade_id != null)
+        {
+            $grade_id = $request->grade_id;
+        }else $grade_id = null;
         
+        $teacherId = $teacher['id'];
         
+        $t =Teacher::findOrFail($teacherId);
+        $t->grade()->attach($grade_id);
+        
+
         
         return redirect('/admin/teacher')->with('success', 'Data berhasil ditambahkan');
     }
@@ -96,7 +135,13 @@ class TeacherController extends Controller
      */
     public function show(Teacher $teacher)
     {
-        //
+        $user = User::all();
+        return view('elearning.admin.pages.teacher.details',
+        [
+            'title' => 'Details',
+            'show'  => $teacher,
+            'user'  => $user
+        ]);
     }
 
     /**
@@ -107,7 +152,12 @@ class TeacherController extends Controller
      */
     public function edit(Teacher $teacher)
     {
-        //
+        $grade = Grade::all();
+        return view('elearning.admin.pages.teacher.edit', [
+			 	"title" => "Edit Data",
+			 	"edit" =>$teacher,
+                "grade" => $grade
+			 ]);
     }
 
     /**
@@ -119,7 +169,47 @@ class TeacherController extends Controller
      */
     public function update(Request $request, Teacher $teacher)
     {
-        //
+        $rules      = [
+        'name'      => 'required|max:255',
+        'gender'    => 'required',
+        'birthplace'=> 'required',
+        'dob'       => 'required',
+        'alamat'    => 'required',
+        'image'     => 'image|file|max:1024'
+        ];
+        
+
+        if($request->nidn != $teacher->nidn )
+        {
+            $rules['nidn'] = 'required|unique:teachers';
+        }
+        
+        $valid = $request->validate($rules);
+
+        if($request->file('image'))
+        {
+            if($request->oldImage)
+            {
+                Storage::delete($request->oldImage);
+            }
+            $valid['image'] = $request->file('image')->store('teacher-images');
+        }
+        
+        Teacher::where('id', $teacher->id)
+                ->update($valid);
+        
+        if($request->grade_id != null)
+        {
+            $grade_id = $request->grade_id;
+        }else $grade_id = null;
+        
+        $teacherId = $teacher['id'];
+        $t =Teacher::findOrFail($teacherId);
+
+        $t->grade()->sync($grade_id);
+        
+        return redirect('/admin/teacher')->with('success', 'Data berhasil diperbarui');
+        
     }
 
     /**
@@ -130,6 +220,13 @@ class TeacherController extends Controller
      */
     public function destroy(Teacher $teacher)
     {
-        //
+        if($teacher->image)
+            {
+                Storage::delete($teacher->image);
+            }
+        Teacher::destroy($teacher->id);
+        User::destroy($teacher->user_id);
+        $teacher->grade()->detach('grade_id');
+        return redirect('/admin/teacher')->with('success', 'data berhasil dihapus');
     }
 }

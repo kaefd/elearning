@@ -10,9 +10,15 @@ class Grade extends Model
     use HasFactory;
     
     protected $guarded = ['id'];
+
     
     public function student()
     {
         return $this->hasMany(Student::class);
+    }
+    
+    public function teacher()
+    {
+        return $this->belongsToMany(Teacher::class, 'teacher_grade');
     }
 }

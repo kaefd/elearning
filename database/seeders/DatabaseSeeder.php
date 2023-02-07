@@ -4,6 +4,8 @@ namespace Database\Seeders;
 use \App\Models\User;
 use \App\Models\Grade;
 use \App\Models\Student;
+use \App\Models\Teacher;
+use \App\Models\TeacherGrade;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -24,15 +26,15 @@ class DatabaseSeeder extends Seeder
         //     'email' => 'test@example.com',
         // ]);
         
-        //User::create([
-        //    'username'  => 'ikak fadil',
-        //    'password'  => 'aaaaa',
-        //    'email'     => 'ika@gmail.com',
-        //    'role'      => 'student'
-        //]);
-        
+        User::create([
+            'username'  => 'admin',
+            'password'  => 'aaaaa',
+            'email'     => 'ika@gmail.com',
+            'role'      => 'admin'
+        ]);
         
         User::factory(50)->create();
+        
         Grade::create([
             'grade_name'    => 'X'
         ]);
@@ -46,17 +48,7 @@ class DatabaseSeeder extends Seeder
         ]);
         
         Student::factory(50)->create();
-        
-        //Student::create([
-        //    'name'          => 'Ika Fadila',
-        //    'nis'           => '8670',
-        //    'gender'        => 'female',
-        //    'birthplace'    => 'Kendal',
-        //    'dob'           => '2000-01-04',
-        //    'alamat'        => 'Kaliwungu',
-        //    'grade_id'      => 1,
-        //    'user_id'       => 1
-        //]);
+        Teacher::factory(50)->create();        
         
         
     }
