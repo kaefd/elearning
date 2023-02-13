@@ -22,7 +22,7 @@
     </div>
         
     <div class="container card pt-2 mt-3 table-responsive vh-table">
-        <table class="table table-hover" id="stdTable">
+        <table class="table table-hover table-bordered" id="stdTable">
             <thead class="text-center">
               <tr class="header">
                 <th scope="col">#</th>
@@ -39,15 +39,15 @@
                 @foreach($teacher as $key => $t )
               <tr class="text-center">
                 <th scope="row">{{ $i++ }}</th>
-                <td>{{ $t->name }}</td>
+                <td class="text-start">{{ $t->name }}</td>
                 <td>{{ $t->nidn }}</td>
                 <td>
-                    <a class="btn btn-sm btn-dark text-decoration-none border-0" href="{{ route('teacher.show', $t->id) }}">view</a>
+                    <a class="btn btn-sm btn-info text-light text-decoration-none border-0" href="{{ route('teacher.show', $t->id) }}"><i class="fa-solid fa-eye"></i></a>
                     
                     <form action="/admin/teacher/{{ $t->id }}" method="post" class="d-inline">
                         @method('delete')
                         @csrf
-                        <button class="btn btn-sm btn-danger border-0" onclick="return confirm('apakah anda yakin?')">delete</button>
+                        <button class="btn btn-sm btn-danger border-0" onclick="return confirm('apakah anda yakin?')"><i class="fa-solid fa-trash"></i></button>
                     </form>
                 </td>
               </tr>

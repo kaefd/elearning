@@ -11,13 +11,13 @@ class TeacherGradeFactory extends Factory
 {
     /**
      * Define the model's default state.
-     *
+
      * @return array<string, mixed>
      */
     public function definition()
     {
         return [
-            'teacher_id'    =>  mt_rand(1,50),
+            'teacher_id'    =>  fake()->unique->numberBetween(1,50),
             'grade_id'      =>  mt_rand(1,3)
         ];
     }

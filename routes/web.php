@@ -6,6 +6,8 @@ use App\Http\Controllers\SignupController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\TeacherController;
+use App\Http\Controllers\TeacherGradeController;
+use App\Http\Controllers\GradeController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -26,12 +28,6 @@ Route::get('/', [PostController::class, 'index']);
 
 Route::get('/admin', [AdminController::class, 'index'])->middleware('auth')->middleware('CheckRole:admin');
 
-Route::get('/admin/kelas', function () {
-    return view('elearning.admin.pages.kelas', [
-    	"title" => "Kelas"
-    ]);
-});
-
 //Route login
 Route::get('/login', [LoginController::class, 'index'])->name('login')->middleware('guest');
 Route::post('/login', [LoginController::class, 'authenticate']);
@@ -43,9 +39,14 @@ Route::post('/signup', [SignupController::class, 'store']);
 
 //route admin.student
 Route::resource('/admin/student', StudentController::class)->middleware(['auth', 'CheckRole:admin']);
+Route::put('/admin/student/up/{student:id}', [StudentController::class, 'up'])->middleware(['auth', 'CheckRole:admin']);
 
 //route admin.teacher
 Route::resource('/admin/teacher', TeacherController::class)->middleware(['auth', 'CheckRole:admin']);
+Route::put('/admin/teacher/up/{teacher:id}', [TeacherController::class, 'up'])->middleware(['auth', 'CheckRole:admin']);
+
+//route class
+Route::resource('/admin/grade', GradeController::class)->middleware(['auth', 'CheckRole:admin']);
 
 //route print
 Route::get('/student/{student:id}/profile.php', [StudentController::class, 'print'])->middleware(['auth', 'CheckRole:admin,teacher,student']);

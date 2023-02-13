@@ -42,10 +42,10 @@
                 <div class="col">
                     <label for="grade" class="form-label mt-4">Kelas</label>
                     <select class="form-select @error('grade') is-invalid @enderror" aria-label="grade" name="grade" value="{{ old('grade') }}">
-                        <option selected></option>
-                        <option value="1">X</option>
-                        <option value="2">XI</option>
-                        <option value="3">XII</option>
+                        <option></option>
+                        @foreach($grade as $g)
+                        <option value="{{$g->id}}">{{$g->grade_name}}</option>
+                        @endforeach
                     </select>
                     @error('grade')
                         <div class="invalid-feedback">

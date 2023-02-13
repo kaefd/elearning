@@ -43,9 +43,11 @@ class StudentController extends Controller
      */
     public function create()
     {
+        $grade = Grade::all();
         return view('elearning.admin.pages.student.create',
         [
-            'title' => 'Tambah Data Siswa'
+            'title' => 'Tambah Data Siswa',
+            'grade' => $grade
         ]);
     }
 
@@ -133,9 +135,11 @@ class StudentController extends Controller
      */
     public function edit(Student $student)
     {
+        $grade = Grade::all();
         return view('elearning.admin.pages.student.edit', [
 			 	"title" => "Edit Data",
-			 	"edit" =>$student,
+			 	"edit"  =>$student,
+                "grade" => $grade
 			 ]);
     }
 
@@ -181,6 +185,15 @@ class StudentController extends Controller
         return redirect('/admin/student')->with('success', 'Data berhasil diperbarui');
         
         
+    }
+    
+    public function up(Student $student)
+    {
+        $newGradeId = null;
+        
+        Student::where('id', $student->id)
+                ->update(['grade_id' => $newGradeId]);
+        return redirect('admin/grade')->with('success', 'Data berhasil diupdate');
     }
 
     /**

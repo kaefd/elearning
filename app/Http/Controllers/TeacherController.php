@@ -54,10 +54,11 @@ class TeacherController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function create()
-    {
+    {   $grade = Grade::all();
         return view('elearning.admin.pages.teacher.create',
         [
-            'title' => 'Tambah Data Tentor'
+            'title' => 'Tambah Data Tentor',
+            'grade' => $grade
         ]);
     }
 
@@ -197,19 +198,17 @@ class TeacherController extends Controller
         
         Teacher::where('id', $teacher->id)
                 ->update($valid);
-        
-        if($request->grade_id != null)
-        {
-            $grade_id = $request->grade_id;
-        }else $grade_id = null;
-        
-        $teacherId = $teacher['id'];
-        $t =Teacher::findOrFail($teacherId);
-
-        $t->grade()->sync($grade_id);
-        
+                
         return redirect('/admin/teacher')->with('success', 'Data berhasil diperbarui');
         
+    }
+    
+    public function up(Teacher $teacher)
+    {
+        $t = Teacher::findOrFail($teacher->id);
+        $t->grade()->sync(null);
+        return redirect('admin/grade')->with('success', 'Data berhasil diupdate');
+
     }
 
     /**
@@ -221,11 +220,13 @@ class TeacherController extends Controller
     public function destroy(Teacher $teacher)
     {
         if($teacher->image)
-            {
-                Storage::delete($teacher->image);
-            }
+        {
+            Storage::delete($teacher->image);
+        }
+            
         Teacher::destroy($teacher->id);
         User::destroy($teacher->user_id);
+        
         $teacher->grade()->detach('grade_id');
         return redirect('/admin/teacher')->with('success', 'data berhasil dihapus');
     }

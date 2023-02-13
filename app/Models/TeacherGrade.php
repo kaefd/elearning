@@ -9,5 +9,9 @@ class TeacherGrade extends Model
 {
     use HasFactory;
     
-    protected $guarded = ['id'];
+    protected $fillable = [
+        'teacher_id',
+        'grade_id'
+    ];
+    
 }

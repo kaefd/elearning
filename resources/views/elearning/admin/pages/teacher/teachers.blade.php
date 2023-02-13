@@ -14,7 +14,7 @@
         <h3>{{ $title }}</h3>
         <hr/>
     </div>
-        <table class="table table-hover" id="stdTable">
+        <table class="table table-bordered" id="stdTable">
             <thead class="text-center">
               <tr class="header">
                 <th scope="col">#</th>
@@ -30,7 +30,7 @@
             @foreach($teacher as $key => $t )
               <tr class="text-center">
                 <th scope="row">{{ $i++ }}</th>
-                <td>{{ $t->name }}</td>
+                <td class="text-start">{{ $t->name }}</td>
                 <td>{{ $t->nidn }}</td>
               </tr> 
             @endforeach

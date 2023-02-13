@@ -177,5 +177,9 @@ body {
       }
       
 .vh-table {
-    height: 400px;
+    height: 450px;
+}
+
+#card div:hover{
+    background-color: #EAF2FF; 
 }

@@ -8,7 +8,7 @@
             </a>
           </li>
           <li class="nav-item nav-dark">
-            <a class="nav-link {{ ($title === "Kelas")? 'active': '' }}" href="/admin/kelas">
+            <a class="nav-link {{ ($title === "Kelas")? 'active': '' }}" href="{{ route('grade.index') }}">
               Kelas
             </a>
           </li>
@@ -23,13 +23,13 @@
             </a>
           </li>
           <li class="nav-item nav-dark">
-            <a class="nav-link {{ ($title === "Data Guru")? 'active': '' }}" href="/admin/teacher">
+            <a class="nav-link {{ ($title === "Data Guru")? 'active': '' }}" href="{{ route('teacher.index') }}">
               <span data-feather="bar-chart-2" class="align-text-bottom"></span>
               Data Guru
             </a>
           </li>
           <li class="nav-item nav-dark">
-            <a href="/admin/student" class="nav-link {{ ($title === "Data Siswa")? 'active': '' }}" >
+            <a href="{{ route('student.index') }}" class="nav-link {{ ($title === "Data Siswa")? 'active': '' }}" >
               <span data-feather="layers" class="align-text-bottom"></span>
               Data Siswa
             </a>

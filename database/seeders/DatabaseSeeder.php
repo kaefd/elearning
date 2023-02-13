@@ -33,6 +33,8 @@ class DatabaseSeeder extends Seeder
             'role'      => 'admin'
         ]);
         
+        TeacherGrade::factory(50)->create();        
+
         User::factory(50)->create();
         
         Grade::create([

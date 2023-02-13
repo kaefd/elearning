@@ -20,10 +20,8 @@
                       </div>
                     @enderror
                 </div>
-            </div>
-              <div class="row">
                 <div class="col">
-                    <label for="nidn" class="form-label mt-4">NIS</label>
+                    <label for="nidn" class="form-label">NIS</label>
                     <input type="number" class="form-control @error('nidn') is-invalid @enderror" id="nidn" name="nidn" value="{{ old('nidn', $edit->nidn) }}">
                     @error('nidn')
                         <div class="invalid-feedback">
@@ -31,35 +29,14 @@
                         </div>
                     @enderror
                 </div>
-                <div class="col">
-                    <label for="grade_id" class="form-label mt-4">Kelas</label>
-                    <select class="form-select @error('grade_id') is-invalid @enderror" aria-label="grade_id" name="grade_id" >
-                        <option></option>
-                        @foreach($grade as $g)
-                        @foreach($edit->grade as $gr)
-                            @if(old('grade_id', $gr->id) == $g->id)
-                                <option value="{{ $g->id }}" selected>{{$g->grade_name}}</option>
-                            @else
-                                <option value="{{ $g->id }}">{{$g->grade_name}}</option>
-                            @endif
-                        @endforeach
-                        @endforeach
-                    </select>
-                    @error('grade_id')
-                        <div class="invalid-feedback">
-                            {{ $message }}
-                        </div>
-                    @enderror
-                </div>
-              </div>
-
+            </div>
               <div class="row">
                 <div class="col">
                     <label for="gender" class="form-label mt-4">Jenis Kelamin</label>
                     <select class="form-select @error('gender') is-invalid @enderror" aria-label="gender" name="gender" value="{{ old('gender', $edit->gender) }}">
                         <option selected></option>
-                                                <option value="female" @if ($edit->gender == "female") {{ 'selected' }} @endif>Perempuan</option>
-                        <option value="male" @if ($edit->gender == "male") {{ 'selected' }} @endif>Laki-laki</option>
+                        <option value="perempuan" @if ($edit->gender == "perempuan") {{ 'selected' }} @endif>Perempuan</option>
+                        <option value="laki-laki" @if ($edit->gender == "laki-laki") {{ 'selected' }} @endif>Laki-laki</option>
                     </select>
                     @error('gender')
                         <div class="invalid-feedback">

@@ -4,10 +4,13 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Kyslik\ColumnSortable\Sortable;
+
 
 class Grade extends Model
 {
     use HasFactory;
+    use Sortable;
     
     protected $guarded = ['id'];
 
@@ -19,6 +22,6 @@ class Grade extends Model
     
     public function teacher()
     {
-        return $this->belongsToMany(Teacher::class, 'teacher_grade');
+        return $this->belongsToMany(Teacher::class, 'teacher_grades');
     }
 }

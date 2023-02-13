@@ -39,16 +39,16 @@
                 @foreach($student as $key => $s )
               <tr class="text-center">
                 <th scope="row">{{ $i++ }}</th>
-                <td>{{ $s->name }}</td>
+                <td class="text-start">{{ $s->name }}</td>
                 <td>{{ $s->nis }}</td>
                 <td>{{$s->grade->grade_name}}</td>
                 <td>
-                    <a class="btn btn-sm btn-dark text-decoration-none border-0" href="{{ route('student.show', $s->id) }}">view</a>
+                    <a class="btn btn-sm btn-info text-light text-decoration-none border-0" href="{{ route('student.show', $s->id) }}"><i class="fa-solid fa-eye"></i></a>
                     
                     <form action="/admin/student/{{ $s->id }}" method="post" class="d-inline">
                         @method('delete')
                         @csrf
-                        <button class="btn btn-sm btn-danger border-0" onclick="return confirm('apakah anda yakin?')">delete</button>
+                        <button class="btn btn-sm btn-danger border-0" onclick="return confirm('apakah anda yakin?')"><i class="fa-solid fa-trash"></i></button>
                     </form>
                 </td>
               </tr>
